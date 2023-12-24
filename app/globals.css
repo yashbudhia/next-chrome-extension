@@ -2,10 +2,19 @@
 @tailwind components;
 @tailwind utilities;
 
+* {
+  scroll-behavior: smooth;
+}
+
 :root {
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+}
+@layer base {
+  body {
+    @apply bg-black text-white font-normal;
+  }
 }
 
 @media (prefers-color-scheme: dark) {
@@ -16,5 +25,8 @@
   }
 }
 
-body {
+@layer utilities {
+  .nav {
+    @apply mt-4;
+  }
 }
