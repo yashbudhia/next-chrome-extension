@@ -25,8 +25,10 @@ export default function LandingPage() {
           background: useMotionTemplate`radial-gradient(750px circle at ${mouseX}px ${mouseY}px,rgb(14 165 233),transparent 80%)`,
         }}
       />
-      <div className="text-semibold text-9xl">
-        For Those Who are serious about their Productivity
+      <div className="h-[644px] flex flex-col justify-center items-center">
+        <div className="font-semibold text-8xl flex flex-col justify-center items-center">
+          <p>"Never Compromise </p> <p>on Your Productivity</p> again"
+        </div>
       </div>
     </>
   );
