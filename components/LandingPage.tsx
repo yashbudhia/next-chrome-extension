@@ -7,7 +7,6 @@ export default function LandingPage() {
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
 
-  console.log("render");
   function handleMouseMove({ clientX, clientY, currentTarget }: MouseEvent) {
     let { left, top } = currentTarget.getBoundingClientRect();
     let xPosition = clientX - left;
@@ -18,9 +17,10 @@ export default function LandingPage() {
   }
   return (
     <>
+      <div className="absolute inset-0 opacity-10 gradient-01" />
       <motion.div
         onMouseMove={handleMouseMove}
-        className=" absolute  inset-0 opacity-20 gradient-01 "
+        className="absolute inset-0 opacity-20"
         style={{
           background: useMotionTemplate`radial-gradient(750px circle at ${mouseX}px ${mouseY}px,rgb(14 165 233),transparent 80%)`,
         }}
