@@ -7,15 +7,26 @@ import { navVariants, textVariant } from "@/utils/motion";
 export default function LandingPage() {
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
+  let mouseSize = useMotionValue(0);
 
   function handleMouseMove({ clientX, clientY, currentTarget }: MouseEvent) {
-    console.log(currentTarget);
     let { left, top } = currentTarget.getBoundingClientRect();
-    let xPosition = clientX - left;
-    let yPosition = clientY - top;
+    let clientX2 = clientX; // Initialize clientX2 with clientX
+
+    // Ensure clientX stays near 850
+    clientX2 = 740 + clientX / 10;
+
+    console.log(clientX2);
+
+    let xPosition = clientX2 - left;
+    let yPosition = clientY / 8 - top - 70;
+    let size = 750 + clientY / 5;
 
     mouseX.set(xPosition);
     mouseY.set(yPosition);
+    mouseSize.set(size);
+
+    console.log(clientX, clientY, size);
   }
   return (
     <>
@@ -25,7 +36,7 @@ export default function LandingPage() {
           onMouseMove={handleMouseMove}
           className="absolute inset-0 opacity-20"
           style={{
-            background: useMotionTemplate`radial-gradient(800px circle at ${mouseX}px ${mouseY}px,rgb(95, 180, 245),transparent 80%)`,
+            background: useMotionTemplate`radial-gradient(${mouseSize}px circle at ${mouseX}px ${mouseY}px,rgb(95, 180, 245),transparent 80%)`,
           }}
         />
         <div className="h-[800px] flex flex-col justify-center items-center">
