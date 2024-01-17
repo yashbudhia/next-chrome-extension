@@ -5,7 +5,7 @@ export const navVariants = {
     transition: {
       type: "spring",
       stiffness: 300,
-      damping: 140,
+      delay: 0.2,
     },
   },
   show: {
