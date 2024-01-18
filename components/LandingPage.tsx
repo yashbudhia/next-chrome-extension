@@ -1,13 +1,31 @@
 "use client";
 
-import React, { MouseEvent } from "react";
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
-import { navVariants, textVariant } from "@/utils/motion";
+import React, { MouseEvent, useEffect, useState } from "react";
+import {
+  motion,
+  useMotionTemplate,
+  useMotionValue,
+  useMotionValueEvent,
+  useScroll,
+} from "framer-motion";
+import { circleGraVariant, navVariants, textVariant } from "@/utils/motion";
 
 export default function LandingPage() {
   let mouseX = useMotionValue(0);
   let mouseY = useMotionValue(0);
   let mouseSize = useMotionValue(0);
+
+  const { scrollY } = useScroll();
+  const [hidden, setHidden] = useState(false);
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious();
+    console.log(latest, previous);
+    if (latest > 65) {
+      setHidden(true);
+    } else {
+      setHidden(false);
+    }
+  });
 
   function handleMouseMove({ clientX, clientY, currentTarget }: MouseEvent) {
     let { left, top } = currentTarget.getBoundingClientRect();
@@ -15,24 +33,27 @@ export default function LandingPage() {
 
     // Ensure clientX stays near 850
     clientX2 = 740 + clientX / 10;
-
-    console.log(clientX2);
+    //console.log(clientX2);
 
     let xPosition = clientX2 - left;
-    let yPosition = clientY / 8 - top - 70;
+    let yPosition = clientY / 8 - top - 80;
     let size = 750 + clientY / 5;
+    let opacity = 120 - clientY / 7;
 
     mouseX.set(xPosition);
     mouseY.set(yPosition);
     mouseSize.set(size);
 
-    console.log(clientX, clientY, size);
+    // console.log(clientX, clientY, size);
   }
   return (
     <>
       <div className="relative w-screen h-screen">
-        <div className="absolute w-[50%] inset-0 opacity-10 " />
+        <div className="absolute w-[50%] inset-0  opacity-20 " />
         <motion.div
+          variants={circleGraVariant}
+          initial="hidden"
+          animate={hidden ? "hidden" : "show"}
           onMouseMove={handleMouseMove}
           className="absolute inset-0 opacity-20"
           style={{
