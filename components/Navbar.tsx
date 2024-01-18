@@ -29,7 +29,7 @@ export default function Navbar() {
           <div className="text-18 px-1 font-semibold">About</div>
           <div className="text-18 px-1 font-semibold">Pricing</div>
         </div>
-        <button className="pr-4 absolute right-3 font-semibold text-lg">
+        <button className="pr-4 absolute right-3 font-semibold text-lg text-transparent gradient-text-2 animate-gradient">
           Signin
         </button>
       </div>

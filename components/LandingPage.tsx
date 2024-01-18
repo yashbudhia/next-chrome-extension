@@ -74,7 +74,10 @@ export default function LandingPage() {
               initial="hidden"
               whileInView="show"
             >
-              on Your Productivity
+              on Your{" "}
+              <span className="text-transparent gradient-text-1 animate-gradient">
+                Productivity
+              </span>
             </motion.div>
             <motion.div
               variants={textVariant(1.1)}

@@ -46,7 +46,16 @@
   );
   filter: blur(125px);
 }
-
+.gradient-text-1 {
+  background: linear-gradient(to right, #8360c3, #2ebf91, #8360c3, #2ebf91);
+  background-size: 300% 300%;
+  background-clip: text;
+}
+.gradient-text-2 {
+  background: linear-gradient(to right, #333333, #dd1818, #333333, #dd1818);
+  background-size: 300% 300%;
+  background-clip: text;
+}
 .hero-gradient {
   background: linear-gradient(
     97.86deg,
