@@ -9,6 +9,7 @@ import {
   useScroll,
 } from "framer-motion";
 import { circleGraVariant, navVariants, textVariant } from "@/utils/motion";
+import Navbar from "./Navbar";
 
 export default function LandingPage() {
   let mouseX = useMotionValue(0);
@@ -48,14 +49,13 @@ export default function LandingPage() {
   }
   return (
     <>
-      <div className="relative w-screen h-screen">
-        <div className="absolute w-[50%] inset-0  opacity-20 " />
+      <div className="">
         <motion.div
           variants={circleGraVariant}
           initial="hidden"
           animate={hidden ? "hidden" : "show"}
           onMouseMove={handleMouseMove}
-          className="absolute inset-0 opacity-20"
+          className="absolute inset-0 opacity-20 z-[1]"
           style={{
             background: useMotionTemplate`radial-gradient(${mouseSize}px circle at ${mouseX}px ${mouseY}px,rgb(95, 180, 245),transparent 80%)`,
           }}
