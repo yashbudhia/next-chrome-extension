@@ -38,9 +38,12 @@ export default function Signin() {
   }
 
   return (
-    <div className="h-[650px] flex flex-col items-center justify-center center-0 ">
+    <div className="relative flex flex-col items-center justify-center top-[200px]  ">
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 ">
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="space-y-8 w-[350px]  border p-9 rounded-lg shadow-md"
+        >
           <FormField
             control={form.control}
             name="username"
@@ -48,16 +51,23 @@ export default function Signin() {
               <FormItem>
                 <FormLabel>Username</FormLabel>
                 <FormControl>
-                  <Input
-                    type="text"
-                    placeholder="shadcn"
-                    className=""
-                    {...field}
-                  />
+                  <Input placeholder="username" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+                <FormDescription>Enter your username.</FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="username"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Username</FormLabel>
+                <FormControl>
+                  <Input placeholder="username" {...field} />
+                </FormControl>
+                <FormDescription>Enter your username.</FormDescription>
                 <FormMessage />
               </FormItem>
             )}

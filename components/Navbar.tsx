@@ -31,7 +31,7 @@ export default function Navbar() {
           <div className="text-18 px-1 font-semibold">Pricing</div>
         </div>
         <Link href="/signin">
-          <button className="pr-4 absolute right-3 top-5 font-semibold text-lg cursor-pointer z-50 ">
+          <button className="pr-4 absolute right-3 top-4 font-semibold text-lg cursor-pointer z-50  ">
             Signin
           </button>
         </Link>
