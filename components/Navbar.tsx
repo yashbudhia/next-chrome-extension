@@ -25,13 +25,15 @@ export default function Navbar() {
       className="fixed top-0 left-0 right-0 z-50 w-full h-16 text-white "
     >
       <div className="flex h-16 items-center pl-3 gap-4 w-32 ">
-        <div className="text-xl pl-2 font-bold ">ReFocus</div>
+        <Link href="/">
+          <div className="text-xl pl-2 font-bold cursor-pointer ">ReFocus</div>
+        </Link>
         <div className="flex h-16 items-center gap-4 pl-4">
           <div className="text-18 px-1 font-semibold">About</div>
           <div className="text-18 px-1 font-semibold">Pricing</div>
         </div>
         <Link href="/signin">
-          <button className="pr-4 absolute right-3 top-4 font-semibold text-lg cursor-pointer z-50  ">
+          <button className=" absolute right-3 top-4 font-semibold text-lg cursor-pointer z-50 bg-black border pt-1 pb-1 pl-2 pr-2  rounded-xl ">
             Signin
           </button>
         </Link>
