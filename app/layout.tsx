@@ -3,6 +3,7 @@ import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import SessionMiddleware from "./session";
 import Navbar from "@/components/Navbar";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const OpenSans = Open_Sans({
   subsets: ["latin"],
@@ -22,10 +23,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${OpenSans.className} overflow-x-hidden`}>
-        <SessionMiddleware>
-          <Navbar />
-          {children}
-        </SessionMiddleware>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <SessionMiddleware>
+            <Navbar />
+            {children}
+          </SessionMiddleware>
+        </ThemeProvider>
       </body>
     </html>
   );
