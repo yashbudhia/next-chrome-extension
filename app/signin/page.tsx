@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Check, ChevronsUpDown } from "lucide-react";
 
 import { cn } from "@/lib/utils";
@@ -55,9 +55,12 @@ const formSchema = z.object({
   occupation: z.string({
     required_error: "Please select an occupation",
   }),
+  email: z.string().min(1).email("Please entire an appropriate email"),
 });
 
 export default function Signin() {
+  const [currentstep, setCurrentstep] = useState(0);
+
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -80,112 +83,154 @@ export default function Signin() {
 
   return (
     <>
-      <div className="relative flex flex-col items-center justify-center top-[200px] z-50 ">
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className="space-y-4 w-[350px]  border p-9 rounded-lg shadow-md"
-          >
-            <p>Fill in the details and continue</p>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Name</FormLabel>
-                  <FormControl>
-                    <Input placeholder="name" {...field} />
-                  </FormControl>
-                  <FormDescription>Enter your name.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="age"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>
-                    Age <br />
-                  </FormLabel>
-                  <FormControl>
-                    <input
-                      type="number"
-                      placeholder="age"
-                      className="p-2 bg-inherit border rounded-lg"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>Enter your age.</FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="occupation"
-              render={({ field }) => (
-                <FormItem className="flex flex-col">
-                  <FormLabel>Occupation</FormLabel>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <FormControl>
-                        <Button
-                          variant="outline"
-                          role="combobox"
-                          className={cn(
-                            "w-[200px] justify-between",
-                            !field.value && "text-muted-foreground"
-                          )}
-                        >
-                          {field.value
-                            ? languages.find(
-                                (language) => language.value === field.value
-                              )?.label
-                            : "Select Occupation"}
-                          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                      </FormControl>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-[200px] p-0">
-                      <Command>
-                        <CommandInput placeholder="Search Occupation..." />
-                        <CommandEmpty>No Occupation found.</CommandEmpty>
-                        <CommandGroup>
-                          {languages.map((language) => (
-                            <CommandItem
-                              value={language.label}
-                              key={language.value}
-                              onSelect={() => {
-                                form.setValue("occupation", language.value);
-                              }}
-                            >
-                              <Check
-                                className={cn(
-                                  "mr-2 h-4 w-4",
-                                  language.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                              {language.label}
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </Command>
-                    </PopoverContent>
-                  </Popover>
-                  <FormDescription>
-                    Choose the occupation which describes you best
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <Button type="submit">Next</Button>
-          </form>
-        </Form>
+      <div className="relative flex flex-col items-center justify-center top-[120px] z-50 ">
+        {currentstep === 0 && (
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 w-[400px] border p-9 rounded-lg shadow-md"
+            >
+              <p>Fill in the details and continue</p>
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Name</FormLabel>
+                    <FormControl>
+                      <Input placeholder="name" {...field} />
+                    </FormControl>
+                    <FormDescription>Enter your name.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="age"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      Age <br />
+                    </FormLabel>
+                    <FormControl>
+                      <input
+                        type="number"
+                        placeholder="age"
+                        className="p-2 bg-inherit border rounded-lg"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>Enter your age.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="occupation"
+                render={({ field }) => (
+                  <FormItem className="flex flex-col">
+                    <FormLabel>Occupation</FormLabel>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <FormControl>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className={cn(
+                              "w-[200px] justify-between",
+                              !field.value && "text-muted-foreground"
+                            )}
+                          >
+                            {field.value
+                              ? languages.find(
+                                  (language) => language.value === field.value
+                                )?.label
+                              : "Select Occupation"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </FormControl>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-[200px] p-0">
+                        <Command>
+                          <CommandInput placeholder="Search Occupation..." />
+                          <CommandEmpty>No Occupation found.</CommandEmpty>
+                          <CommandGroup>
+                            {languages.map((language) => (
+                              <CommandItem
+                                value={language.label}
+                                key={language.value}
+                                onSelect={() => {
+                                  form.setValue("occupation", language.value);
+                                }}
+                              >
+                                <Check
+                                  className={cn(
+                                    "mr-2 h-4 w-4",
+                                    language.value === field.value
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                                {language.label}
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </Command>
+                      </PopoverContent>
+                    </Popover>
+                    <FormDescription>
+                      Choose the occupation which describes you best
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div>
+                <Button type="submit" onClick={() => setCurrentstep(1)}>
+                  Continue
+                </Button>
+              </div>
+            </form>
+          </Form>
+        )}
+        {currentstep === 1 && (
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 w-[400px] border p-9 rounded-lg shadow-md"
+            >
+              <p>Enter your email to verify </p>
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="abc@xyz.com" {...field} />
+                    </FormControl>
+                    <FormDescription>Enter your email.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className=" flex gap-x-9 ">
+                <Button onClick={() => setCurrentstep(0)}>Previous</Button>
+                <Button type="submit" onClick={() => setCurrentstep(1)}>
+                  Submit
+                </Button>
+              </div>
+              <FormDescription className=" flex items-center justify-center">
+                Or signin with
+              </FormDescription>
+              <button></button>
+            </form>
+          </Form>
+        )}
       </div>
     </>
   );
