@@ -33,6 +33,7 @@ import {
 import { toast } from "@/components/ui/use-toast";
 
 import { Input } from "@/components/ui/input";
+import { signIn } from "next-auth/react";
 
 const languages = [
   { label: "College Student", value: "C-student" },
@@ -55,7 +56,7 @@ const formSchema = z.object({
   occupation: z.string({
     required_error: "Please select an occupation",
   }),
-  email: z.string().min(1).email("Please entire an appropriate email"),
+  email: z.string().email("Please entire an appropriate email"),
 });
 
 export default function Signin() {
@@ -218,16 +219,41 @@ export default function Signin() {
                 )}
               />
 
-              <div className=" flex gap-x-9 ">
+              <div className=" flex items-center justify-center gap-x-6 ">
                 <Button onClick={() => setCurrentstep(0)}>Previous</Button>
                 <Button type="submit" onClick={() => setCurrentstep(1)}>
                   Submit
                 </Button>
               </div>
               <FormDescription className=" flex items-center justify-center">
-                Or signin with
+                Or
               </FormDescription>
-              <button></button>
+              <div className="flex flex-col gap-5 items-center justify-center dark:bg-inherit">
+                <button
+                  onClick={() => signIn("google")}
+                  className="px-4 py-2 border flex gap-2 border-slate-200 dark:bg-inherit rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+                >
+                  <img
+                    className="w-6 h-6"
+                    src="https://www.svgrepo.com/show/475656/google-color.svg"
+                    loading="lazy"
+                    alt="google logo"
+                  />
+                  <span>Login with Google</span>
+                </button>
+                <button
+                  onClick={() => signIn("github")}
+                  className="px-4 py-2 border flex gap-2 border-slate-200 dark:bg-inherit rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
+                >
+                  <img
+                    className="w-6 h-6 "
+                    src="https://www.svgrepo.com/show/439171/github.svg"
+                    loading="lazy"
+                    alt="github logo"
+                  />
+                  <span>Login with Github</span>
+                </button>
+              </div>
             </form>
           </Form>
         )}
