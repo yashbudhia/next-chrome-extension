@@ -65,12 +65,24 @@ export default function Signin() {
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      age: "",
+      occupation: "",
+      email: "",
+    },
   });
+  /* Defining register and handleSubmit
 
+  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+  });
+  */
   // 2. Define a submit handler.
   function onSubmit(values: z.infer<typeof formSchema>) {
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
+    console.log(values);
     toast({
       title: "You submitted the following values:",
       description: (
@@ -79,7 +91,6 @@ export default function Signin() {
         </pre>
       ),
     });
-    console.log(values);
   }
 
   return (
@@ -190,7 +201,12 @@ export default function Signin() {
               />
 
               <div>
-                <Button type="submit" onClick={() => setCurrentstep(1)}>
+                <Button
+                  type="button"
+                  onClick={() => {
+                    setCurrentstep(1);
+                  }}
+                >
                   Continue
                 </Button>
               </div>
@@ -220,7 +236,9 @@ export default function Signin() {
               />
 
               <div className=" flex items-center justify-center gap-x-6 ">
-                <Button onClick={() => setCurrentstep(0)}>Previous</Button>
+                <Button type="button" onClick={() => setCurrentstep(0)}>
+                  Previous
+                </Button>
                 <Button type="submit" onClick={() => setCurrentstep(1)}>
                   Submit
                 </Button>
