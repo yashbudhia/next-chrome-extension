@@ -4,6 +4,7 @@ import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import { navVariants } from "./../utils/motion";
 import styles from "./../styles/index";
 import Link from "next/link";
+import SigninButton from "./SigninButton";
 
 export default function Navbar() {
   const { scrollY } = useScroll();
@@ -33,9 +34,7 @@ export default function Navbar() {
           <div className="text-18 px-1 font-semibold">Pricing</div>
         </div>
         <Link href="/signin">
-          <button className=" absolute right-3 top-4 font-semibold text-lg cursor-pointer z-50 bg-black border pt-1 pb-1 pl-2 pr-2  rounded-xl ">
-            Signin
-          </button>
+          <SigninButton />
         </Link>
       </div>
     </motion.nav>
