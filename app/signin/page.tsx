@@ -34,7 +34,9 @@ import { toast } from "@/components/ui/use-toast";
 
 import { Input } from "@/components/ui/input";
 import { signIn } from "next-auth/react";
-
+import { User } from "@prisma/client";
+import { prisma } from "@/prisma";
+import FeedToDB from "../db/route";
 const languages = [
   { label: "College Student", value: "C-student" },
   { label: "School Student", value: "S-student" },
@@ -80,19 +82,31 @@ export default function Signin() {
   late night commit
   */
   // 2. Define a submit handler.
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    // Do something with the form values.
-    // ✅ This will be type-safe and validated.
-    console.log(values);
-    sessionStorage.user;
-    toast({
-      title: "You submitted the following values:",
-      description: (
-        <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-          <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-        </pre>
-      ),
-    });
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    try {
+      // Create a new user entry in the database
+      await FeedToDB(values);
+
+      // Do something with the form values.
+      // This will be type-safe and validated.
+      console.log(values);
+
+      // Save the user to sessionStorage (optional)
+      // sessionStorage.user = JSON.stringify(newUser);
+
+      toast({
+        title: "You submitted the following values:",
+        description: (
+          <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
+            <code className="text-white">
+              {JSON.stringify(values, null, 2)}
+            </code>
+          </pre>
+        ),
+      });
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   return (
