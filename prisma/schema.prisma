@@ -15,8 +15,11 @@ model User {
   email String @unique
   email_verified   Boolean @default(false)
   name String
+  createdAt DateTime @default(now())
   age String?
   occupation String?
   image String?
+  verifyToken String?
+  verifyTokenExpiry DateTime?
 
 }
