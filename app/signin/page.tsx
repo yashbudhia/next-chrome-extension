@@ -33,10 +33,11 @@ import {
 import { toast } from "@/components/ui/use-toast";
 
 import { Input } from "@/components/ui/input";
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { User } from "@prisma/client";
 import { prisma } from "@/prisma";
 import FeedToDB from "../db/route";
+
 const languages = [
   { label: "College Student", value: "C-student" },
   { label: "School Student", value: "S-student" },
@@ -63,6 +64,7 @@ const formSchema = z.object({
 
 export default function Signin() {
   const [currentstep, setCurrentstep] = useState(0);
+  const { data: session } = useSession();
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -84,15 +86,9 @@ export default function Signin() {
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      // Create a new user entry in the database
-      await FeedToDB(values);
+      await signIn("email", { email: values.email });
 
-      // Do something with the form values.
-      // This will be type-safe and validated.
       console.log(values);
-
-      // Save the user to sessionStorage (optional)
-      // sessionStorage.user = JSON.stringify(newUser);
 
       toast({
         title: "You submitted the following values:",
@@ -104,6 +100,9 @@ export default function Signin() {
           </pre>
         ),
       });
+
+      // Update the step after successful form submission
+      setCurrentstep(2);
     } catch (error) {
       console.log(error);
     }
@@ -255,9 +254,7 @@ export default function Signin() {
                 <Button type="button" onClick={() => setCurrentstep(0)}>
                   Previous
                 </Button>
-                <Button type="submit" onClick={() => setCurrentstep(1)}>
-                  Submit
-                </Button>
+                <Button type="submit">Submit</Button>
               </div>
               <FormDescription className=" flex items-center justify-center">
                 Or
@@ -288,6 +285,18 @@ export default function Signin() {
                   <span>Login with Github</span>
                 </button>
               </div>
+            </form>
+          </Form>
+        )}
+        {currentstep === 2 && (
+          <Form {...form}>
+            <form
+              onSubmit={form.handleSubmit(onSubmit)}
+              className="space-y-4 w-[400px] border p-9 rounded-lg shadow-md"
+            >
+              <p>
+                A link has been sent to your email. Click the link to verify{" "}
+              </p>
             </form>
           </Form>
         )}

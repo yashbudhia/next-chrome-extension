@@ -33,9 +33,8 @@ export default function Navbar() {
           <div className="text-18 px-1 font-semibold">About</div>
           <div className="text-18 px-1 font-semibold">Pricing</div>
         </div>
-        <Link href="/signin">
-          <SigninButton />
-        </Link>
+
+        <SigninButton />
       </div>
     </motion.nav>
   );

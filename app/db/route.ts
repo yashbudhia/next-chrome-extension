@@ -13,7 +13,6 @@ export default async function FeedToDB({
   try {
     const newUser: User = await prisma.user.create({
       data: {
-        email: email,
         name: name,
         age: age,
         occupation: occupation,
