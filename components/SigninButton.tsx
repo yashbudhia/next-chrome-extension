@@ -8,7 +8,7 @@ export default function SigninButton() {
 
   if (session && session.user) {
     return (
-      <div className="flex gap-4 ml-auto items-center">
+      <div className="flex gap-4 absolute right-3 top-4 items-center">
         <Image
           src={
             session.user.image
@@ -35,9 +35,12 @@ export default function SigninButton() {
   return (
     <button
       onClick={() => signIn()}
-      className=" absolute right-3 top-4 font-semibold text-lg cursor-pointer z-50 bg-black border pt-1 pb-1 pl-2 pr-2  rounded-xl "
+      className="absolute right-3 top-4 inline-flex h-10 overflow-hidden rounded-full p-[1px] focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 focus:ring-offset-slate-50"
     >
-      Signin
+      <span className="absolute inset-[-1000%] animate-[spin_5s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#E2CBFF_0%,#393BB2_50%,#E2CBFF_100%)]" />
+      <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">
+        &nbsp;&nbsp;&nbsp;Sign In&nbsp;&nbsp;&nbsp;
+      </span>
     </button>
   );
 }
