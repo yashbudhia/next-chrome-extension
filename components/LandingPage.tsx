@@ -4,8 +4,15 @@ import React from "react";
 import { motion } from "framer-motion";
 import { textVariant } from "@/utils/motion";
 import CircleGradient from "./ux/circle-gradient";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
 
 export default function LandingPage() {
+  const { data: session } = useSession();
+
+  if (session) {
+    redirect("/dashboard");
+  }
   // Missing block of code, please add the relevant code here.
 
   return (
