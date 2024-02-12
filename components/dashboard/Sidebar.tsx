@@ -7,8 +7,15 @@ import Image from "next/image";
 import { User } from "@prisma/client";
 import Link from "next/link";
 import { useState } from "react";
-import dynamic from "next/dynamic";
+
 import HomeLogo from "./../svg/Home";
+import CalendarLogo from "./../svg/calendar";
+import ChecklistLogo from "./../svg/checklist";
+import AccuracyLogo from "./../svg/accuracy";
+import FeedbackLogo from "./../svg/feedback";
+import BellLogo from "./../svg/bell";
+import Comp2 from "./../svg/comp2";
+import RefocusLogo from "./../svg/Refocus";
 
 export default function Sidebar() {
   const [selectedItem, setSelectedItem] = useState(null);
@@ -27,7 +34,7 @@ export default function Sidebar() {
       <div className="h-18 p-6">
         <div className="flex pl-8">
           <div className="flex items-center gap-2 justify-center border rounded-full hover:rounded-xl p-2 pl-3 pr-3 cursor-pointer">
-            <Image src="refocus-2.svg" alt="logo" width={24} height={24} />
+            <RefocusLogo />
             <div className="font-semibold text-xl">Refocus</div>
           </div>
         </div>
@@ -49,7 +56,7 @@ export default function Sidebar() {
           }`}
           onClick={() => handleDivClick("routine")}
         >
-          <Image src="calendar.svg" alt="calendar" width={24} height={24} />
+          <CalendarLogo />
           <button className="font-semibold">Routine</button>
         </div>
 
@@ -59,7 +66,7 @@ export default function Sidebar() {
           }`}
           onClick={() => handleDivClick("rival")}
         >
-          <Image src="comp-2.svg" alt="rival" width={24} height={24} />
+          <Comp2 />
           <button className="font-semibold">Rival</button>
         </div>
         <div
@@ -68,7 +75,7 @@ export default function Sidebar() {
           }`}
           onClick={() => handleDivClick("priority")}
         >
-          <Image src="checklist.svg" alt="checklist" width={24} height={24} />
+          <ChecklistLogo />
           <button className="font-semibold">Priority</button>
         </div>
         <div
@@ -77,7 +84,7 @@ export default function Sidebar() {
           }`}
           onClick={() => handleDivClick("consistency")}
         >
-          <Image src="accuracy.svg" alt="consistency" width={24} height={24} />
+          <AccuracyLogo />
           <button className="font-semibold">Consistency</button>
         </div>
         <div
@@ -86,7 +93,7 @@ export default function Sidebar() {
           }`}
           onClick={() => handleDivClick("feedback")}
         >
-          <Image src="feedback.svg" alt="feedback" width={24} height={24} />
+          <FeedbackLogo />
           <button className="font-semibold">Leave Feedback</button>
         </div>
         <div
@@ -95,7 +102,7 @@ export default function Sidebar() {
           }`}
           onClick={() => handleDivClick("subscription")}
         >
-          <Image src="bell.svg" alt="bell" width={24} height={24} />
+          <BellLogo />
           <button className="font-semibold">Subscription</button>
         </div>
       </div>
