@@ -1,13 +1,11 @@
 "use client";
-
 import { signOut, useSession } from "next-auth/react";
-import { redirect, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import Image from "next/image";
-import { User } from "@prisma/client";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
 
+// Import SVG icons
 import HomeLogo from "./../svg/Home";
 import CalendarLogo from "./../svg/calendar";
 import ChecklistLogo from "./../svg/checklist";
@@ -17,6 +15,17 @@ import BellLogo from "./../svg/bell";
 import Comp2 from "./../svg/comp2";
 import RefocusLogo from "./../svg/Refocus";
 
+// Define sidebar items
+const sidebarItems = [
+  { key: "home", icon: <HomeLogo />, label: "Home" },
+  { key: "routine", icon: <CalendarLogo />, label: "Routine" },
+  { key: "rival", icon: <Comp2 />, label: "Rival" },
+  { key: "priority", icon: <ChecklistLogo />, label: "Priority" },
+  { key: "consistency", icon: <AccuracyLogo />, label: "Consistency" },
+  { key: "feedback", icon: <FeedbackLogo />, label: "Leave Feedback" },
+  { key: "subscription", icon: <BellLogo />, label: "Subscription" },
+];
+
 export default function Sidebar() {
   const [selectedItem, setSelectedItem] = useState(null);
   const { data: session } = useSession();
@@ -24,9 +33,9 @@ export default function Sidebar() {
 
   console.log(session);
 
-  const handleDivClick = (item: any) => {
-    setSelectedItem(item);
-    router.push(`/dashboard/${item}`);
+  const handleDivClick = (itemKey) => {
+    setSelectedItem(itemKey);
+    router.push(`/dashboard/${itemKey}`);
   };
 
   return (
@@ -39,75 +48,22 @@ export default function Sidebar() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 ">
-        <div
-          className={`sidebar-div ${
-            selectedItem === "home" ? "bg-green-500" : ""
-          }`}
-          onClick={() => handleDivClick("home")}
-        >
-          <HomeLogo />
-          <button className="font-semibold">Home</button>
-        </div>
-
-        <div
-          className={`sidebar-div ${
-            selectedItem === "routine" ? "bg-green-500" : ""
-          }`}
-          onClick={() => handleDivClick("routine")}
-        >
-          <CalendarLogo />
-          <button className="font-semibold">Routine</button>
-        </div>
-
-        <div
-          className={`sidebar-div ${
-            selectedItem === "rival" ? "bg-green-500" : ""
-          }`}
-          onClick={() => handleDivClick("rival")}
-        >
-          <Comp2 />
-          <button className="font-semibold">Rival</button>
-        </div>
-        <div
-          className={`sidebar-div ${
-            selectedItem === "priority" ? "bg-green-500" : ""
-          }`}
-          onClick={() => handleDivClick("priority")}
-        >
-          <ChecklistLogo />
-          <button className="font-semibold">Priority</button>
-        </div>
-        <div
-          className={`sidebar-div ${
-            selectedItem === "consistency" ? "bg-green-500" : ""
-          }`}
-          onClick={() => handleDivClick("consistency")}
-        >
-          <AccuracyLogo />
-          <button className="font-semibold">Consistency</button>
-        </div>
-        <div
-          className={`sidebar-div ${
-            selectedItem === "feedback" ? "bg-green-500" : ""
-          }`}
-          onClick={() => handleDivClick("feedback")}
-        >
-          <FeedbackLogo />
-          <button className="font-semibold">Leave Feedback</button>
-        </div>
-        <div
-          className={`sidebar-div ${
-            selectedItem === "subscription" ? "bg-green-500" : ""
-          }`}
-          onClick={() => handleDivClick("subscription")}
-        >
-          <BellLogo />
-          <button className="font-semibold">Subscription</button>
-        </div>
+      <div className="flex flex-col gap-2">
+        {sidebarItems.map((item) => (
+          <div
+            key={item.key}
+            className={`sidebar-div ${
+              selectedItem === item.key ? "bg-green-500" : ""
+            }`}
+            onClick={() => handleDivClick(item.key)}
+          >
+            {item.icon}
+            <button className="font-semibold">{item.label}</button>
+          </div>
+        ))}
       </div>
-      <div className="absolute w-64 bottom-5 p-3 border-t-2 pb-2 ">
-        <div className="flex gap-3 items-center ">
+      <div className="absolute w-64 bottom-5 p-3 border-t-2 pb-2">
+        <div className="flex gap-3 items-center">
           <Image
             src={session?.user?.image || ""}
             alt="user-profile"
@@ -115,7 +71,7 @@ export default function Sidebar() {
             height={40}
             className="rounded-full cursor-pointer"
           />
-          <div className="font-semibold cursor-pointer p-2 ">
+          <div className="font-semibold cursor-pointer p-2">
             {session?.user?.name ?? ""}
           </div>
           <button
