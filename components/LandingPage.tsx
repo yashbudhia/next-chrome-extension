@@ -6,6 +6,7 @@ import { textVariant } from "@/utils/motion";
 import CircleGradient from "./ux/circle-gradient";
 import { useSession } from "next-auth/react";
 import { redirect } from "next/navigation";
+import Navbar from "./Navbar";
 
 export default function LandingPage() {
   const { data: session } = useSession();
@@ -18,6 +19,7 @@ export default function LandingPage() {
   return (
     <>
       <div className="">
+        <Navbar />
         <CircleGradient />
         <div className="h-[800px] flex flex-col justify-center items-center">
           <div className="font-semibold text-8xl flex flex-col justify-center items-center">

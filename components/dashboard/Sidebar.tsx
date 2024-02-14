@@ -27,13 +27,14 @@ const sidebarItems = [
 ];
 
 export default function Sidebar() {
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem, setSelectedItem] = useState("grey");
   const { data: session } = useSession();
   const router = useRouter();
 
   console.log(session);
 
-  const handleDivClick = (itemKey) => {
+  const handleDivClick = (itemKey, event) => {
+    event.preventDefault();
     setSelectedItem(itemKey);
     router.push(`/dashboard/${itemKey}`);
   };
@@ -55,7 +56,7 @@ export default function Sidebar() {
             className={`sidebar-div ${
               selectedItem === item.key ? "bg-green-500" : ""
             }`}
-            onClick={() => handleDivClick(item.key)}
+            onClick={(event) => handleDivClick(item.key, event)}
           >
             {item.icon}
             <button className="font-semibold">{item.label}</button>

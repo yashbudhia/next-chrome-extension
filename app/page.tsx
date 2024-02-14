@@ -1,13 +1,14 @@
+"use client";
+import { signIn, useSession } from "next-auth/react";
+import { useRouter } from "next/router"; // Fixed import
+import { useEffect } from "react";
 import About from "@/components/About";
 import LandingPage from "@/components/LandingPage";
-import { signIn } from "next-auth/react";
-import Image from "next/image";
 
 export default function Home() {
   return (
-    <div>
+    <>
       <LandingPage />
-      <About />
-    </div>
+    </>
   );
 }

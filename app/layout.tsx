@@ -24,10 +24,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${OpenSans.className} overflow-x-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
-          <SessionMiddleware>
-            <Navbar />
-            {children}
-          </SessionMiddleware>
+          <SessionMiddleware>{children}</SessionMiddleware>
         </ThemeProvider>
       </body>
     </html>
