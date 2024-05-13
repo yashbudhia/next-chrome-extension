@@ -36,7 +36,6 @@ import { Input } from "@/components/ui/input";
 import { signIn, useSession } from "next-auth/react";
 import { User } from "@prisma/client";
 import { prisma } from "@/prisma";
-import FeedToDB from "../db/route";
 
 const languages = [
   { label: "College Student", value: "C-student" },

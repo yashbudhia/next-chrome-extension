@@ -6,22 +6,22 @@ import Image from "next/image";
 import Link from "next/link";
 
 // Import SVG icons
-import HomeLogo from "./../svg/Home";
-import CalendarLogo from "./../svg/calendar";
-import ChecklistLogo from "./../svg/checklist";
-import AccuracyLogo from "./../svg/accuracy";
-import FeedbackLogo from "./../svg/feedback";
-import BellLogo from "./../svg/bell";
-import Comp2 from "./../svg/comp2";
-import RefocusLogo from "./../svg/Refocus";
+import HomeLogo from "../svg/Home";
+import CalendarLogo from "../svg/calendar";
+import ChecklistLogo from "../svg/checklist";
+import AccuracyLogo from "../svg/accuracy";
+import FeedbackLogo from "../svg/feedback";
+import BellLogo from "../svg/bell";
+import Comp2 from "../svg/comp2";
+import SettingsLogo from "./../svg/settings";
 
 // Define sidebar items
 const sidebarItems = [
   { key: "home", icon: <HomeLogo />, label: "Home" },
   { key: "routine", icon: <CalendarLogo />, label: "Routine" },
-  { key: "rival", icon: <Comp2 />, label: "Rival" },
-  { key: "priority", icon: <ChecklistLogo />, label: "Priority" },
-  { key: "consistency", icon: <AccuracyLogo />, label: "Consistency" },
+  { key: "rival", icon: <Comp2 />, label: "Share Workspace" },
+  { key: "priority", icon: <ChecklistLogo />, label: "Voice Mode" },
+  { key: "Settings", icon: <SettingsLogo />, label: "Settings" },
   { key: "feedback", icon: <FeedbackLogo />, label: "Leave Feedback" },
   { key: "subscription", icon: <BellLogo />, label: "Subscription" },
 ];
@@ -33,18 +33,22 @@ export default function Sidebar() {
 
   console.log(session);
 
-  const handleDivClick = (itemKey, event) => {
+  const handleDivClick = (itemKey: string, event: React.MouseEvent) => {
     event.preventDefault();
     setSelectedItem(itemKey);
     router.push(`/dashboard/${itemKey}`);
   };
 
   return (
-    <div className="w-64 h-screen bg-grey">
+    <div className="fixed top-0 left-0 h-screen w-64 bg-grey overflow-y-auto">
       <div className="h-18 p-6">
         <div className="flex pl-8">
           <div className="flex items-center gap-2 justify-center border rounded-full hover:rounded-xl p-2 pl-3 pr-3 cursor-pointer">
-            <RefocusLogo />
+            <img
+              src="/refocus2.png"
+              alt="refocus"
+              className="h-5 w-5 rounded-2xl"
+            />
             <div className="font-semibold text-xl">Refocus</div>
           </div>
         </div>
@@ -76,8 +80,9 @@ export default function Sidebar() {
             {session?.user?.name ?? ""}
           </div>
           <button
-            onClick={() => {
-              signOut();
+            onClick={async () => {
+              await signOut();
+              router.push("/");
             }}
             className="absolute text-sm right-0 pr-2 text-red-700"
           >

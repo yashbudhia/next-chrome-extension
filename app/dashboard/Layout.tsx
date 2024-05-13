@@ -1,15 +1,18 @@
-"use client";
-
-import Sidebar from "@/components/dashboard/sidebar";
+import Sidebar from "@/components/dashboard/SidebarCode";
+import { Toaster } from "@/components/ui/toaster";
 import { ReactNode } from "react";
 
-const Layout = ({ children }) => {
+const Layout = ({ children }: { children: ReactNode }) => {
   return (
-    <div style={{ display: "flex", height: "100vh" }}>
-      <Sidebar />
-      <div style={{ flex: 1, padding: "20px" }}>{children}</div>
+    <div className="flex h-screen">
+      <div className="w-64">
+        <Sidebar />
+      </div>
+      <div className="flex-1 overflow-y-auto">
+        <main>{children}</main>
+      </div>
+      <Toaster />
     </div>
   );
 };
-
 export default Layout;

@@ -1,10 +1,15 @@
 import { PrismaClient } from "@prisma/client";
 
+declare global {
+  var prisma: PrismaClient | undefined;
+}
+
+// Initialize PrismaClient
 let prisma: PrismaClient;
 
-// Check if prisma is already defined before creating a new instance
 if (process.env.NODE_ENV === "production") {
-  prisma = prisma || new PrismaClient();
+  // In production, create a new instance of PrismaClient
+  prisma = new PrismaClient();
 } else {
   if (typeof window === "undefined") {
     // In development on the server side, recreate PrismaClient for each request

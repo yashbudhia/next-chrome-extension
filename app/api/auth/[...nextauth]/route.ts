@@ -5,9 +5,11 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import EmailProvider from "next-auth/providers/email";
 import { signIn } from "next-auth/react";
+import type { Adapter } from "next-auth/adapters";
+import { NextAuthOptions } from "next-auth";
 
-const authOptions = {
-  adapter: PrismaAdapter(prisma),
+const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma) as Adapter,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",
