@@ -18,10 +18,10 @@ import SettingsLogo from "./../svg/settings";
 // Define sidebar items
 const sidebarItems = [
   { key: "home", icon: <HomeLogo />, label: "Home" },
-  { key: "routine", icon: <CalendarLogo />, label: "Routine" },
-  { key: "rival", icon: <Comp2 />, label: "Share Workspace" },
-  { key: "priority", icon: <ChecklistLogo />, label: "Voice Mode" },
-  { key: "Settings", icon: <SettingsLogo />, label: "Settings" },
+
+  { key: "share", icon: <Comp2 />, label: "Share Workspace" },
+  { key: "voice", icon: <ChecklistLogo />, label: "Voice Mode" },
+  { key: "settings", icon: <SettingsLogo />, label: "Settings" },
   { key: "feedback", icon: <FeedbackLogo />, label: "Leave Feedback" },
   { key: "subscription", icon: <BellLogo />, label: "Subscription" },
 ];
@@ -31,7 +31,6 @@ export default function Sidebar() {
   const { data: session } = useSession();
   const router = useRouter();
 
-  console.log(session);
 
   const handleDivClick = (itemKey: string, event: React.MouseEvent) => {
     event.preventDefault();

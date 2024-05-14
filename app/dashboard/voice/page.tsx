@@ -16,9 +16,11 @@ export default function Priority() {
         <h1 className="text-heading">
           Toggle the slider to on or off voice mode
         </h1>
-        <div className="pt-2">
-          <SpeechRecognitionButton onClick={handleToggleVoiceMode} />
+
+        <div className="pt-2" onClick={handleToggleVoiceMode}>
+          <SpeechRecognitionButton />
         </div>
+
         {/* Pass voiceMode state as a prop if necessary */}
         <div>
           Instructions: To open a Workspace-

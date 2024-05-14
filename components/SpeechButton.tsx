@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { Workspace } from "@/types";
 
 const SpeechRecognitionButton = () => {
   const [voiceModeOn, setVoiceModeOn] = useState(false);
@@ -17,7 +18,7 @@ const SpeechRecognitionButton = () => {
         const workspaces = await fetchWorkspaces(); // Fetch workspaces
         const workspace = findWorkspaceByName(workspaces, workspaceName);
         if (workspace) {
-          openWorkspace(workspace.tabs.map((tab) => tab.url));
+          openWorkspace(workspace.tabs.map((tab: { url: string }) => tab.url));
         } else {
           console.log("Workspace not found");
         }
@@ -27,9 +28,11 @@ const SpeechRecognitionButton = () => {
     recognition.start();
   };
 
-  const fetchWorkspaces = async () => {
+  const fetchWorkspaces = async (): Promise<Workspace[]> => {
     try {
-      const response = await axios.get("http://localhost:8080/workspace-tabs");
+      const response = await axios.get<Workspace[]>(
+        "http://localhost:8080/workspace-tabs"
+      );
       return response.data;
     } catch (error) {
       console.error("Error fetching workspaces:", error);
@@ -37,13 +40,16 @@ const SpeechRecognitionButton = () => {
     }
   };
 
-  const findWorkspaceByName = (workspaces, workspaceName) => {
+  const findWorkspaceByName = (
+    workspaces: Workspace[],
+    workspaceName: string
+  ): Workspace | undefined => {
     return workspaces.find((ws) =>
       ws.name.toLowerCase().includes(workspaceName.toLowerCase())
     );
   };
 
-  const openWorkspace = (urls) => {
+  const openWorkspace = (urls: string[]) => {
     chrome.runtime.sendMessage("lgcppbhmkjaanapiifdjaindpcllghmf", {
       action: "openWorkspace",
       data: urls,

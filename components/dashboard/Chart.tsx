@@ -1,6 +1,15 @@
 "use client";
 import { useEffect, useState, useRef, useCallback } from "react";
-import Chart from "chart.js/auto";
+import Chart, {
+  BubbleDataPoint,
+  ChartOptions,
+  ChartTypeRegistry,
+  Point,
+} from "chart.js/auto";
+
+interface DomainTimeMap {
+  [domain: string]: number;
+}
 
 // Function to format seconds into hh:mm:ss format
 const formatTime = (seconds: number) => {
@@ -8,12 +17,16 @@ const formatTime = (seconds: number) => {
   const hours = Math.floor(seconds / 3600);
   const minutes = Math.floor((seconds % 3600) / 60);
   const remainingSeconds = seconds % 60;
-  return `${hours.toString().padStart(2, "0")} hours ${minutes.toString().padStart(2, "0")} minutes ${remainingSeconds.toString().padStart(2, "0")} seconds`;
+  return `${hours.toString().padStart(2, "0")} hours ${minutes
+    .toString()
+    .padStart(2, "0")} minutes ${remainingSeconds
+    .toString()
+    .padStart(2, "0")} seconds`;
 };
 
 const randomColor = (() => {
   "use strict";
-  const randomInt = (min, max) => {
+  const randomInt = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   };
 
@@ -72,70 +85,54 @@ export default function ChartComponent(): JSX.Element {
     return () => clearInterval(intervalId);
   }, [fetchTabData]);
 
-  const renderPieChart = useCallback((tabDataHistory) => {
-    // Create an object to store total time spent on each domain
-    const domainTimeMap = {};
-    let totalBrowserTime = 0;
-    Object.values(tabDataHistory).forEach((tab: any) => {
-      // Check if tab.url is a valid string
-      if (typeof tab.url === "string" && tab.url !== "") {
-        // Extract domain name from the URL
-        const domain = new URL(tab.url).hostname.replace("www.", "");
-        // Add total time spent on this domain to the domainTimeMap
-        domainTimeMap[domain] =
-          (domainTimeMap[domain] || 0) + tab.totalTimeSpent;
-        totalBrowserTime += tab.totalTimeSpent;
-      }
-    });
+  const renderPieChart = useCallback(
+    (tabDataHistory: { [s: string]: unknown } | ArrayLike<unknown>) => {
+      // Create an object to store total time spent on each domain
+      const domainTimeMap: DomainTimeMap = {};
+      let totalBrowserTime = 0;
+      Object.values(tabDataHistory).forEach((tab: any) => {
+        // Check if tab.url is a valid string
+        if (typeof tab.url === "string" && tab.url !== "") {
+          // Extract domain name from the URL
+          const domain = new URL(tab.url).hostname.replace("www.", "");
+          // Add total time spent on this domain to the domainTimeMap
+          domainTimeMap[domain] =
+            (domainTimeMap[domain] || 0) + tab.totalTimeSpent;
+          totalBrowserTime += tab.totalTimeSpent;
+        }
+      });
 
-    // Extract unique domain names and their corresponding total time spent
-    const domains = Object.keys(domainTimeMap);
-    const totalSeconds = Object.values(domainTimeMap).reduce(
-      (acc, time) => acc + time,
-      0
-    );
-    const percentageTimeSpent = Object.values(domainTimeMap).map(
-      (time) => (time / totalBrowserTime) * 100 // Use totalBrowserTime instead of totalSeconds
-    );
-
-    // Update chart data
-    if (chartRef.current) {
-      chartRef.current.data.labels = domains.map(
-        (domain, index) =>
-          `${domain} (${formatTime(domainTimeMap[domain])}) - ${percentageTimeSpent[index].toFixed(2)}%`
+      // Extract unique domain names and their corresponding total time spent
+      const domains = Object.keys(domainTimeMap);
+      const totalSeconds = Object.values(domainTimeMap).reduce(
+        (acc, time) => acc + time,
+        0
       );
-      chartRef.current.data.datasets[0].data = percentageTimeSpent; // Update with percentage data
-      chartRef.current.update();
-    } else {
-      // Create new Chart.js instance
-      const ctx = document.getElementById("pieChart");
-      if (ctx) {
-        chartRef.current = new Chart(ctx, {
-          type: "pie",
-          data: {
-            labels: domains.map(
-              (domain, index) =>
-                `${domain} (${formatTime(domainTimeMap[domain])}) - ${percentageTimeSpent[index].toFixed(2)}%`
-            ),
-            datasets: [
-              {
-                label: "Time Spent (%)", // Update label to indicate percentage
-                data: percentageTimeSpent,
-                backgroundColor: backgroundColorsRef.current,
-              },
-            ],
-          },
-          options: {
-            animation: false, // Turn off animation
-          },
-        });
-      }
-    }
+      const percentageTimeSpent = Object.values(domainTimeMap).map(
+        (time) => (time / totalBrowserTime) * 100 // Use totalBrowserTime instead of totalSeconds
+      );
 
-    // Update total browser time spent
-    setTotalBrowserTimeSpent(totalBrowserTime);
-    setFormattedTotalBrowserTime(formatTime(totalBrowserTime));
-  }, []);
+      // Update chart data
+      if (chartRef.current) {
+        chartRef.current.data.labels = domains.map(
+          (domain, index) =>
+            `${domain} (${formatTime(
+              domainTimeMap[domain]
+            )}) - ${percentageTimeSpent[index].toFixed(2)}%`
+        );
+        chartRef.current.data.datasets[0].data = percentageTimeSpent; // Update with percentage data
+        chartRef.current.update();
+      } else {
+        // Create new Chart.js instance
+        const ctx = document.getElementById("pieChart");
+      }
+
+      // Update total browser time spent
+      setTotalBrowserTimeSpent(totalBrowserTime);
+      setFormattedTotalBrowserTime(formatTime(totalBrowserTime));
+    },
+    []
+  );
 
   useEffect(() => {
     // Render pie chart when tabDataHistory updates

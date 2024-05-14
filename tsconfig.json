@@ -28,7 +28,8 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/api/auth/[...nextauth]/route.js",
-    "utils/mailer.js"
+    "utils/mailer.js",
+    "components/dashboard/Chart.jsx"
   ],
   "exclude": ["node_modules"]
 }

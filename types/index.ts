@@ -5,3 +5,13 @@ export type SideNavItem = {
   submenu?: boolean;
   subMenuItems: SideNavItem[];
 };
+
+export interface Workspace {
+  id: string;
+  name: string;
+  tabs: {
+    image: string;
+    title: string;
+    url: string;
+  }[];
+}

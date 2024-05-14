@@ -28,11 +28,13 @@ export default function Settings() {
       });
   }, []); // Empty dependency array ensures this effect runs only once on mount
 
-  const handleCheckboxChange = (event) => {
+  const handleCheckboxChange = (event: {
+    target: { checked: boolean | ((prevState: boolean) => boolean) };
+  }) => {
     setAutoClose(event.target.checked);
   };
 
-  const handleInputChange = (event) => {
+  const handleInputChange = (event: { target: { value: string } }) => {
     setTime(parseInt(event.target.value));
   };
 
