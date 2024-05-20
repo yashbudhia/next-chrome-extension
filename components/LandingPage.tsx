@@ -30,7 +30,7 @@ export default function LandingPage() {
                 initial="hidden"
                 whileInView="show"
               >
-                "Manage Tabs
+                "Manage Tab
               </motion.div>
               <motion.div
                 variants={textVariant(0.9)}

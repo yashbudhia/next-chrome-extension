@@ -6,12 +6,16 @@ import { Workspace } from "@/types";
 const WorkspaceTabs = () => {
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]); // Define the type of workspaces
   const [hoveredWorkspace, setHoveredWorkspace] = useState<string | null>(null);
+  const baseUrl =
+    process.env.NODE_ENV === "production"
+      ? process.env.BACKEND_URL // Production environment
+      : "http://localhost:8080"; // Development environment
 
   const fetchWorkspaces = async () => {
     try {
       const response = await axios.get<
         { id: string; name: string; tabs: any[] }[]
-      >("http://localhost:8080/workspace-tabs");
+      >(`${baseUrl}/workspace-tabs`);
       setWorkspaces(
         response.data.map((workspace) => ({
           ...workspace,
@@ -33,7 +37,7 @@ const WorkspaceTabs = () => {
   ) => {
     event.stopPropagation(); // Prevent event propagation
     try {
-      await axios.delete(`http://localhost:8080/workspaces/${workspaceId}`);
+      await axios.delete(`${baseUrl}/workspaces/${workspaceId}`);
       fetchWorkspaces(); // Fetch workspaces again to update the UI
     } catch (error) {
       console.error("Error deleting workspace:", error);

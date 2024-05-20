@@ -1,8 +1,27 @@
 /** @type {import('next').NextConfig} */
+const isProduction = process.env.NODE_ENV === "production";
+
+const NextConfig = {
+  output: "standalone",
+};
 
 module.exports = {
+  ...NextConfig,
   images: {
-    domains: ["avatars.githubusercontent.com", "lh3.googleusercontent.com"],
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
   },
   typescript: {
     // !! WARN !!
@@ -11,4 +30,5 @@ module.exports = {
     // !! WARN !!
     ignoreBuildErrors: false,
   },
+  // Environment-specific configurations
 };

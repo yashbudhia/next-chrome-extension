@@ -5,15 +5,12 @@ import { navVariants } from "./../utils/motion";
 import styles from "./../styles/index";
 import Link from "next/link";
 import SigninButton from "./SigninButton";
-import { useSession } from "next-auth/react";
 
 export default function Navbar() {
   const { scrollY } = useScroll();
   const [hidden, setHidden] = useState(false);
 
   //session
-
-  const { data: session } = useSession();
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();

@@ -20,7 +20,7 @@ export default function CircleGradient() {
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     const previous = scrollY.getPrevious();
-    console.log(latest, previous);
+
     if (latest > 65) {
       setHidden(true);
     } else {

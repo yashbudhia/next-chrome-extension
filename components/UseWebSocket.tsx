@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 
 const useWebSocket = (url: string) => {
   const [data, setData] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const ws = new WebSocket(url);
@@ -10,10 +9,6 @@ const useWebSocket = (url: string) => {
     ws.onmessage = (event) => {
       const newData = JSON.parse(event.data);
       setData(newData);
-    };
-
-    ws.onerror = (event) => {
-      setError(event as any);
     };
 
     ws.onclose = () => {

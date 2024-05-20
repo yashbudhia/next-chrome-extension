@@ -31,7 +31,6 @@ export default function Sidebar() {
   const { data: session } = useSession();
   const router = useRouter();
 
-
   const handleDivClick = (itemKey: string, event: React.MouseEvent) => {
     event.preventDefault();
     setSelectedItem(itemKey);
@@ -81,7 +80,7 @@ export default function Sidebar() {
           <button
             onClick={async () => {
               await signOut();
-              router.push("/");
+              window.location.href = "/";
             }}
             className="absolute text-sm right-0 pr-2 text-red-700"
           >
