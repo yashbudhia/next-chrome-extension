@@ -2,7 +2,7 @@
 FROM node:18-alpine AS builder
 
 # Set the working directory
-WORKDIR /app
+WORKDIR /out
 
 # Copy package.json and package-lock.json
 COPY package*.json ./
@@ -20,24 +20,20 @@ RUN npm run build
 FROM node:18-alpine
 
 # Set the working directory
-WORKDIR /app
-
-# Install only production dependencies
-COPY package*.json ./
-RUN npm install --only=production
+WORKDIR /out
 
 # Copy the built Next.js application from the builder stage
-COPY --from=builder /app /app
+COPY --from=builder /out /out
+
+# Install dotenv package to load environment variables
+RUN npm install dotenv
 
 # Copy the .env file
-COPY .env.production .env
+COPY .env .env
 
 # Expose the ports for Next.js and Express
 EXPOSE 3000
 EXPOSE 8080
 
-# Install concurrently for running both servers
-RUN npm install concurrently
-
-# Start both Next.js and Express using concurrently
-CMD ["npx", "concurrently", "\"node .next/standalone/server.js\"", "\"node -r dotenv/config backend/index.js\""]
+# Start both Next.js and Express
+CMD ["sh", "-c", "npm run start & node -r dotenv/config backend/index.js"]
