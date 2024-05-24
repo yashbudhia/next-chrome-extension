@@ -33,16 +33,18 @@ const TabDataComponent = () => {
   const [isCreating, setIsCreating] = useState(false); // State to track button disabled state
   const [ws, setWs] = useState<WebSocket | null>(null); // WebSocket instance
   const tabData: TabData = useWebSocket(
-    "ws://localhost:8080"
+    "ws://http://74.225.225.87:8080"
   ) as unknown as TabData; // Use the useWebSocket hook to fetch tab data and cast it to TabData type
   const [workspaceData, setWorkspaceData] = useState<FormData | null>(null); // State to store workspace data
 
   // Define base URL based on environment
-  const baseUrl =
+
+  const baseUrl = "ws://http://74.225.225.87:8080"; // Development environment
+  /*** const baseUrl =
     process.env.NODE_ENV === "production"
       ? process.env.BACKEND_URL // Production environment
       : "http://localhost:8080"; // Development environment
-
+***/
   // Form handling using react-hook-form
   const {
     register,

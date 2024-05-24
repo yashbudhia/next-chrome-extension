@@ -9,7 +9,7 @@ const WorkspaceTabs = () => {
   const baseUrl =
     process.env.NODE_ENV === "production"
       ? process.env.BACKEND_URL // Production environment
-      : "http://localhost:8080"; // Development environment
+      : "http://http://74.225.225.87:8080"; // Development environment
 
   const fetchWorkspaces = async () => {
     try {

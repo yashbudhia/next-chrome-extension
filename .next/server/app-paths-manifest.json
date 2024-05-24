@@ -1,15 +1,5 @@
 {
-  "/_not-found": "app/_not-found.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
   "/page": "app/page.js",
-  "/signin/page": "app/signin/page.js",
-  "/favicon.ico/route": "app/favicon.ico/route.js",
-  "/dashboard/feedback/page": "app/dashboard/feedback/page.js",
-  "/dashboard/share/page": "app/dashboard/share/page.js",
-  "/dashboard/routine/page": "app/dashboard/routine/page.js",
-  "/dashboard/home/page": "app/dashboard/home/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
-  "/dashboard/subscription/page": "app/dashboard/subscription/page.js",
-  "/dashboard/voice/page": "app/dashboard/voice/page.js",
-  "/dashboard/Settings/page": "app/dashboard/Settings/page.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/favicon.ico/route": "app/favicon.ico/route.js"
 }
