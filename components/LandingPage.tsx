@@ -23,8 +23,8 @@ export default function LandingPage() {
     <>
       <div>
         <div className="">
-          <div className="h-[800px] flex flex-col justify-center items-center">
-            <div className="font-semibold text-8xl flex flex-col justify-center items-center">
+          <div className="h-[400px] md:h-[800px] flex flex-col justify-center items-center">
+            <div className="font-semibold text-4xl md:text-8xl flex flex-col justify-center items-center text-center">
               <motion.div
                 variants={textVariant(0.7)}
                 initial="hidden"
@@ -69,7 +69,7 @@ export default function LandingPage() {
           </div>
         </div>
         <React.Suspense fallback={<div>Loading...</div>}>
-          <div className="pb-[800px]">
+          <div className="pb-[400px] md:pb-[800px]">
             <About />
           </div>
         </React.Suspense>
