@@ -4,7 +4,7 @@ import { Workspace } from "@/types";
 
 const SpeechRecognitionButton = () => {
   const [voiceModeOn, setVoiceModeOn] = useState(false);
-
+  const baseUrl = process.env.EXPRESS_URL || "https://api.refocus.co.in";
   const startSpeechRecognition = () => {
     const recognition = new window.webkitSpeechRecognition();
     recognition.lang = "en-US";
@@ -31,7 +31,7 @@ const SpeechRecognitionButton = () => {
   const fetchWorkspaces = async (): Promise<Workspace[]> => {
     try {
       const response = await axios.get<Workspace[]>(
-        "http://localhost:8080/workspace-tabs"
+        `${baseUrl}/workspace-tabs`
       );
       return response.data;
     } catch (error) {

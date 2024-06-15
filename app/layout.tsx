@@ -11,8 +11,8 @@ const OpenSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "boost your productivity",
-  description: "Never compromoise on productivity anymore",
+  title: "Refocus ",
+  description: "Refocus - All in one Chrome extension for Productivity",
 };
 
 export default function RootLayout({

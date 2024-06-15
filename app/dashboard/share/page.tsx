@@ -3,7 +3,7 @@ import Layout from "../Layout";
 export default function Rival() {
   return (
     <Layout>
-      <div>Rival</div>
+      <div>Coming soon...</div>
     </Layout>
   );
 }

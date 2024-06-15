@@ -34,7 +34,7 @@ const Workspace: React.FC<WorkspaceProps> = ({ data, userId }) => {
         return;
       }
       const response = await axios.post(
-        "http://http://74.225.225.87:8080/workspace-data",
+        "https://api.refocus.co.in/workspace-data",
         {
           Wname: data.Wname,
           selectedTabs: data.selectedTabs,

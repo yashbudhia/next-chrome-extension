@@ -10,7 +10,7 @@ export default function Settings() {
 
   useEffect(() => {
     // Fetch data from server when component mounts
-    fetch("http://localhost:8080/extension-data")
+    fetch("https://api.refocus.co.in/extension-data")
       .then((response) => {
         if (!response.ok) {
           throw new Error("Failed to fetch data from server");
