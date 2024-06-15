@@ -4,12 +4,9 @@ import { motion } from "framer-motion";
 import { Workspace } from "@/types";
 
 const WorkspaceTabs = () => {
-  const [workspaces, setWorkspaces] = useState<Workspace[]>([]); // Define the type of workspaces
+  const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [hoveredWorkspace, setHoveredWorkspace] = useState<string | null>(null);
-  const baseUrl =
-    process.env.NODE_ENV === "production"
-      ? process.env.BACKEND_URL // Production environment
-      : "http://http://74.225.225.87:8080"; // Development environment
+  const baseUrl = process.env.EXPRESS_URL || "https://api.refocus.co.in";
 
   const fetchWorkspaces = async () => {
     try {
@@ -35,10 +32,10 @@ const WorkspaceTabs = () => {
     workspaceId: any,
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.stopPropagation(); // Prevent event propagation
+    event.stopPropagation(); // Prevent event from bubbling up to parent
     try {
       await axios.delete(`${baseUrl}/workspaces/${workspaceId}`);
-      fetchWorkspaces(); // Fetch workspaces again to update the UI
+      fetchWorkspaces();
     } catch (error) {
       console.error("Error deleting workspace:", error);
     }
@@ -51,7 +48,13 @@ const WorkspaceTabs = () => {
     return title;
   };
 
-  const openWorkspace = (urls: any) => {
+  const openWorkspace = (
+    urls: any,
+    event:
+      | React.MouseEvent<HTMLDivElement, MouseEvent>
+      | React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation(); // Prevent event from bubbling up to parent
     chrome.runtime.sendMessage("lgcppbhmkjaanapiifdjaindpcllghmf", {
       action: "openWorkspace",
       data: urls,
@@ -65,11 +68,14 @@ const WorkspaceTabs = () => {
         {workspaces.map((workspace) => (
           <div
             key={workspace.id}
-            className="workspace overflow-hidden"
+            className="workspace cursor-pointer relative overflow-hidden"
             onMouseEnter={() => setHoveredWorkspace(workspace.id)}
             onMouseLeave={() => setHoveredWorkspace(null)}
-            onClick={() =>
-              openWorkspace(workspace.tabs.map((tab: { url: any }) => tab.url))
+            onClick={(e) =>
+              openWorkspace(
+                workspace.tabs.map((tab: { url: any }) => tab.url),
+                e
+              )
             }
           >
             <motion.div
@@ -114,24 +120,28 @@ const WorkspaceTabs = () => {
                   </div>
                 )}
               </div>
-              <div className="mt-auto">
+              {/* Action Buttons */}
+              <div className="mt-auto flex justify-between">
+                <div className="relative">
+                  <button
+                    onClick={(e) => deleteWorkspace(workspace.id, e)}
+                    className="text-red-500 hover:text-red-700 mr-2 relative z-10"
+                  >
+                    Delete Workspace
+                  </button>
+                  <div
+                    className="absolute inset-0"
+                    onClick={(e) => e.stopPropagation()}
+                    style={{ cursor: "default", background: "transparent" }}
+                  />
+                </div>
                 <button
-                  onClick={(e) => {
-                    deleteWorkspace(workspace.id, e); // Pass the event
-                    window.location.reload();
-                  }}
-                  className="text-red-500 hover:text-red-700 mr-2 "
-                >
-                  Delete Workspace
-                </button>
-
-                <button
-                  onClick={() => {
+                  onClick={(e) =>
                     openWorkspace(
-                      workspace.tabs.map((tab: { url: any }) => tab.url)
-                    );
-                    window.location.reload();
-                  }}
+                      workspace.tabs.map((tab: { url: any }) => tab.url),
+                      e
+                    )
+                  }
                   className={`pl-12 text-white ${
                     hoveredWorkspace === workspace.id
                       ? "text-gray-400"
