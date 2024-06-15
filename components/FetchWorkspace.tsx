@@ -36,6 +36,7 @@ const WorkspaceTabs = () => {
     try {
       await axios.delete(`${baseUrl}/workspaces/${workspaceId}`);
       fetchWorkspaces();
+      window.location.reload();
     } catch (error) {
       console.error("Error deleting workspace:", error);
     }
@@ -68,23 +69,11 @@ const WorkspaceTabs = () => {
         {workspaces.map((workspace) => (
           <div
             key={workspace.id}
-            className="workspace cursor-pointer relative overflow-hidden"
+            className="workspace relative overflow-hidden"
             onMouseEnter={() => setHoveredWorkspace(workspace.id)}
             onMouseLeave={() => setHoveredWorkspace(null)}
-            onClick={(e) =>
-              openWorkspace(
-                workspace.tabs.map((tab: { url: any }) => tab.url),
-                e
-              )
-            }
           >
-            <motion.div
-              whileTap={{ scale: 0.8 }}
-              whileHover={{
-                transition: { duration: 1 },
-              }}
-              className="border rounded-xl p-2 flex flex-col h-52"
-            >
+            <div className="border rounded-xl p-2 flex flex-col h-52">
               <div className="text-heading pb-2">
                 Workspace Name:{" "}
                 <span className="text-green-500">{workspace.name}</span>
@@ -129,11 +118,6 @@ const WorkspaceTabs = () => {
                   >
                     Delete Workspace
                   </button>
-                  <div
-                    className="absolute inset-0"
-                    onClick={(e) => e.stopPropagation()}
-                    style={{ cursor: "default", background: "transparent" }}
-                  />
                 </div>
                 <button
                   onClick={(e) =>
@@ -151,7 +135,7 @@ const WorkspaceTabs = () => {
                   Open workspace
                 </button>
               </div>
-            </motion.div>
+            </div>
           </div>
         ))}
       </div>
