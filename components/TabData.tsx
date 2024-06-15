@@ -89,22 +89,18 @@ const TabDataComponent = () => {
       }
     });
 
-    // ... (other WebSocket event listeners) ...
+    ws.addEventListener("close", () => {
+      console.log("WebSocket connection closed");
+    });
+
+    ws.addEventListener("error", (error) => {
+      console.error("WebSocket error:", error);
+    });
 
     return () => {
       ws.close();
     };
-  }, [baseUrl]); // Dependency array
-
-  // useEffect for updating Workspace
-  useEffect(() => {
-    if (workspaceData && session?.user && tabData) {
-      setValue(
-        "selectedTabs",
-        workspaceData.selectedTabs.map((tab) => tab.tabId)
-      );
-    }
-  }, [workspaceData, session?.user, tabData]); // Dependency array
+  }, [baseUrl]); // Only re-run this effect if baseUrl changes
 
   const onSubmit = async (data: FormData) => {
     const workspaceData = {
@@ -123,6 +119,7 @@ const TabDataComponent = () => {
     });
 
     if (ws) {
+      console.log("Sending workspaceData via WebSocket:", workspaceData);
       ws.send(JSON.stringify(workspaceData));
     }
 
