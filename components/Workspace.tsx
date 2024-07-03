@@ -29,22 +29,43 @@ const Workspace: React.FC<WorkspaceProps> = ({ data, userId }) => {
   const saveWorkspace = async () => {
     console.log("Saving workspace...");
     try {
-      if (!data || !data.selectedTabs) {
-        console.log("Data or selectedTabs is undefined");
+      if (!data || !data.selectedTabs || data.selectedTabs.length === 0) {
+        console.log("Invalid data or no tabs selected");
         return;
       }
+
+      // Filter out invalid entries
+      const validTabs = data.selectedTabs.filter(
+        (tab) => tab && tab.title && tab.url
+      );
+
+      if (validTabs.length === 0) {
+        console.log("No valid tabs to save");
+        return;
+      }
+
+      const payload = {
+        Wname: data.Wname,
+        selectedTabs: validTabs,
+        userId: userId,
+      };
+
+      console.log("Payload:", payload);
+
       const response = await axios.post(
         "https://api.refocus.co.in/workspace-data",
-        {
-          Wname: data.Wname,
-          selectedTabs: data.selectedTabs,
-          userId: userId, // Pass userId to server
-        }
+        payload
       );
+
       console.log("Saved workspace:", response.data);
       // Optionally, you can add a success message or trigger any necessary UI updates
     } catch (error) {
-      console.error("Error saving workspace to database:", error);
+      if (axios.isAxiosError(error)) {
+        console.error("Axios error message:", error.message);
+        console.error("Axios error response:", error.response);
+      } else {
+        console.error("Unexpected error:", error);
+      }
       // Handle errors here, such as displaying an error message to the user
     }
   };

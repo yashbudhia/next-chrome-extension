@@ -1,11 +1,11 @@
 generator client {
   provider = "prisma-client-js"
-   binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
+  binaryTargets = ["native", "linux-musl-openssl-3.0.x"]
 }
 
 datasource db {
   provider = "mysql"
-  url      = env("DATABASE_URL")
+  url      = "mysql://refocus:fuckingvijeta1000times@week@refocus.mysql.database.azure.com:3306/refocus"
 }
 
 model Account {
@@ -75,7 +75,7 @@ model Tab {
   id                 Int       @id @default(autoincrement()) @map("id")
   title              String
   url                String    @db.Text
-  image              String
+  image              String?
   workspaceId        Int       @map("workspace_id")
   createdAt          DateTime  @default(now())
 

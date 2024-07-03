@@ -18,30 +18,21 @@ let autoClose = true;
 let time = 10;
 
 const server = http.createServer(app);
-const wss = new WebSocket.Server({ server });
-
-wss.on("connection", (ws) => {
-  ws.send(JSON.stringify(tabData));
-
-  ws.on("error", (error) => {
-    console.error("WebSocket error:", error);
-  });
-});
 
 app.post("/extension-data", (req, res) => {
   const { newAutoClose, newTime } = req.body;
   autoClose = newAutoClose;
   time = newTime;
+  res.status(200).send("Extension data updated successfully");
 });
 
 app.post("/tab-data", (req, res) => {
   tabData = req.body;
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(tabData));
-    }
-  });
   res.status(200).send("Tab data received successfully");
+});
+
+app.get("/tab-data", (req, res) => {
+  res.status(200).json(tabData);
 });
 
 app.get("/extension-data", (req, res) => {
@@ -62,44 +53,24 @@ app.get("/workspace-tabs", async (req, res) => {
   }
 });
 
-prisma.$on("workspace", async (event) => {
-  const updatedWorkspaces = await prisma.workspace.findMany({
-    include: { tabs: true },
-  });
-
-  wss.clients.forEach((client) => {
-    if (client.readyState === WebSocket.OPEN) {
-      client.send(JSON.stringify(updatedWorkspaces));
-    }
-  });
-});
-
 app.post("/workspaces", async (req, res) => {
   const { name, selectedTabs, userId } = req.body;
 
   try {
     const createdWorkspace = await prisma.workspace.create({
       data: {
-        name,
+        name: Wname,
         tabs: {
           createMany: {
             data: selectedTabs.map((tab) => ({
               title: tab.title,
               url: tab.url,
-              image: tab.image,
+              image: tab.image || null,
             })),
           },
         },
         user: { connect: { email: userId } },
       },
-    });
-
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(
-          JSON.stringify({ type: "new_workspace", data: createdWorkspace })
-        );
-      }
     });
 
     res.status(201).json(createdWorkspace);
@@ -114,7 +85,23 @@ app.post("/workspaces", async (req, res) => {
 app.post("/workspace-data", async (req, res) => {
   const { Wname, selectedTabs, userId } = req.body;
 
+  if (
+    !Wname ||
+    !Array.isArray(selectedTabs) ||
+    selectedTabs.length === 0 ||
+    !userId
+  ) {
+    return res.status(400).json({ error: "Invalid request data" });
+  }
+
+  const validTabs = selectedTabs.filter((tab) => tab && tab.title && tab.url);
+
+  if (validTabs.length === 0) {
+    return res.status(400).json({ error: "No valid tabs provided" });
+  }
+
   try {
+    // Create workspace with optional image handling
     const createdWorkspace = await prisma.workspace.create({
       data: {
         name: Wname,
@@ -123,7 +110,7 @@ app.post("/workspace-data", async (req, res) => {
             data: selectedTabs.map((tab) => ({
               title: tab.title,
               url: tab.url,
-              image: tab.image,
+              image: tab.image || null, // Set to null if image is undefined
             })),
           },
         },
@@ -131,20 +118,23 @@ app.post("/workspace-data", async (req, res) => {
       },
     });
 
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(
-          JSON.stringify({ type: "new_workspace", data: createdWorkspace })
-        );
-      }
-    });
-
     res.status(201).json(createdWorkspace);
   } catch (error) {
-    console.error("Error saving workspace to database:", error);
-    res.status(500).json({
-      error: "An error occurred while saving workspace to the database.",
-    });
+    // Enhanced error handling
+    if (error.clientVersion) {
+      // Prisma-specific error
+      console.error("Prisma Error saving workspace:", error);
+      res.status(500).json({
+        error:
+          "An error occurred while saving the workspace. Please try again later.",
+      });
+    } else {
+      // Other errors
+      console.error("Unexpected error saving workspace:", error);
+      res.status(500).json({
+        error: "An unexpected error occurred. Please contact support.",
+      });
+    }
   }
 });
 
@@ -161,17 +151,6 @@ app.delete("/workspaces/:workspaceId", async (req, res) => {
       where: {
         id: parseInt(workspaceId),
       },
-    });
-
-    wss.clients.forEach((client) => {
-      if (client.readyState === WebSocket.OPEN) {
-        client.send(
-          JSON.stringify({
-            type: "deleted_workspace",
-            data: { id: parseInt(workspaceId) },
-          })
-        );
-      }
     });
 
     res.status(200).send("Workspace deleted successfully");

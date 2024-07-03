@@ -6,7 +6,7 @@ import { Workspace } from "@/types";
 const WorkspaceTabs = () => {
   const [workspaces, setWorkspaces] = useState<Workspace[]>([]);
   const [hoveredWorkspace, setHoveredWorkspace] = useState<string | null>(null);
-  const baseUrl = process.env.EXPRESS_URL || "https://api.refocus.co.in";
+  const baseUrl = "https://api.refocus.co.in";
 
   const fetchWorkspaces = async () => {
     try {
