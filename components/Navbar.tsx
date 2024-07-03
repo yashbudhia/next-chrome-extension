@@ -34,8 +34,9 @@ export default function Navbar() {
           <div className="text-xl pl-2 font-bold cursor-pointer ">ReFocus</div>
         </Link>
         <div className="flex h-16 items-center gap-4 pl-4">
+          <div className="text-18 px-1 font-semibold">Features</div>
           <div className="text-18 px-1 font-semibold">About</div>
-          <div className="text-18 px-1 font-semibold">Pricing</div>
+          <div className="text-18 px-1 font-semibold">Contact</div>
         </div>
 
         <SigninButton />

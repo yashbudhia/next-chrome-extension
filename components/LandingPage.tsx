@@ -70,7 +70,7 @@ export default function LandingPage() {
               <div className="pt-7 ">
                 <button
                   onClick={() => {}}
-                  className="relative inline-flex h-12 overflow-hidden rounded-full p-[2px] focus:outline-none focus:ring-3 focus:ring-slate-400 focus:ring-offset-3 focus:ring-offset-slate-50 "
+                  className="relative z-40 inline-flex h-12 overflow-hidden rounded-full p-[2px] focus:outline-none focus:ring-3 focus:ring-slate-400 focus:ring-offset-3 focus:ring-offset-slate-50 "
                 >
                   <span className="absolute inset-[-1000%] animate-[spin_5s_linear_infinite] bg-[conic-gradient(from_90deg_at_50%_50%,#f44336_0%,#393BB2_50%,#f44336_100%)]" />
                   <span className="inline-flex h-full w-full cursor-pointer items-center justify-center rounded-full bg-slate-950 px-3 py-1 text-sm font-medium text-white backdrop-blur-3xl">

@@ -36,6 +36,7 @@ import { Input } from "@/components/ui/input";
 import { signIn, useSession } from "next-auth/react";
 import { User } from "@prisma/client";
 import { prisma } from "@/prisma";
+import { Textarea } from "@/components/ui/textarea";
 
 const languages = [
   { label: "College Student", value: "C-student" },
@@ -51,6 +52,12 @@ const languages = [
 const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
+  }),
+  like: z.string().max(100, {
+    message: "Maximum 100 characters allowed.",
+  }),
+  improve: z.string().max(100, {
+    message: "Maximum 100 characters allowed.",
   }),
   age: z.string().min(1, {
     message: "Age must not be empty.,",
@@ -73,6 +80,8 @@ export default function Signin() {
       age: "",
       occupation: "",
       email: "",
+      like: "",
+      improve: "",
     },
   });
   /* Defining register and handleSubmit
@@ -233,56 +242,49 @@ export default function Signin() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="space-y-4 w-[400px] border p-9 rounded-lg shadow-md"
             >
-              <p>Enter your email to verify </p>
               <FormField
                 control={form.control}
-                name="email"
+                name="like" // Use separate names for each Textarea
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Email</FormLabel>
+                    <FormLabel>
+                      What do you like about this extension?
+                    </FormLabel>
                     <FormControl>
-                      <Input placeholder="abc@xyz.com" {...field} />
+                      <Textarea
+                        placeholder="This will go to the landing page..."
+                        className="resize-none"
+                        {...field}
+                      />
                     </FormControl>
-                    <FormDescription>Enter your email.</FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
 
-              <div className=" flex items-center justify-center gap-x-6 ">
+              <FormField
+                control={form.control}
+                name="improve" // Separate name for second Textarea
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>How to improve it?</FormLabel>
+                    <FormControl>
+                      <Textarea
+                        placeholder="Any 2 lines you want to write"
+                        className="resize-none"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <div className="flex items-center justify-center gap-x-6">
                 <Button type="button" onClick={() => setCurrentstep(0)}>
                   Previous
                 </Button>
                 <Button type="submit">Submit</Button>
-              </div>
-              <FormDescription className=" flex items-center justify-center">
-                Or
-              </FormDescription>
-              <div className="flex flex-col gap-5 items-center justify-center dark:bg-inherit">
-                <button
-                  onClick={() => signIn("google")}
-                  className="px-4 py-2 border flex gap-2 border-slate-200 dark:bg-inherit rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
-                >
-                  <img
-                    className="w-6 h-6"
-                    src="https://www.svgrepo.com/show/475656/google-color.svg"
-                    loading="lazy"
-                    alt="google logo"
-                  />
-                  <span>Login with Google</span>
-                </button>
-                <button
-                  onClick={() => signIn("github")}
-                  className="px-4 py-2 border flex gap-2 border-slate-200 dark:bg-inherit rounded-lg text-slate-700 dark:text-slate-200 hover:border-slate-400 dark:hover:border-slate-500 hover:text-slate-900 dark:hover:text-slate-300 hover:shadow transition duration-150"
-                >
-                  <img
-                    className="w-6 h-6 "
-                    src="https://www.svgrepo.com/show/439171/github.svg"
-                    loading="lazy"
-                    alt="github logo"
-                  />
-                  <span>Login with Github</span>
-                </button>
               </div>
             </form>
           </Form>

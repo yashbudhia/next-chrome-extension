@@ -1,21 +1,19 @@
-import React from "react";
-import { TracingBeam } from "./ui/tracingbeam";
-import { motion } from "framer-motion";
 import { textVariant } from "@/utils/motion";
-import Features from "./Features";
+import { motion } from "framer-motion";
+import Review from "./Reviews";
 
-export default function About() {
+export default function Features() {
   return (
-    <TracingBeam className="flex justify-center z-[300px] h-[2100px]">
-      <div className="mt-12 pt-24 w-[1200px] z-50 flex flex-col items-center">
-        <div className="flex flex-col  justify-center items-center">
+    <>
+      <div>
+        <div className="flex flex-col  justify-center items-center mt-14 pt-28">
           <motion.div
             variants={textVariant(1.0)}
             initial="hidden"
             whileInView="show"
             className=" font-sans font-medium text-3xl md:text-7xl text-center text-transparent gradient-text-1 animate-gradient"
           >
-            Switch Effortlessly
+            Less is More..
           </motion.div>
           <div>
             <motion.div
@@ -24,7 +22,13 @@ export default function About() {
               whileInView="show"
               className="text-start gap-2 pt-5 text-slate-400"
             >
-              Create Different workspaces for your different moods
+              Automatically Reminds you everytime you open more than 10 tabs.
+              <br />
+              This allows you to save memory and avoids brain freezes due to too
+              much information.
+              <br />
+              Note - This will only work once per 10 minutes. This also gets
+              reset if you close the Browser.
             </motion.div>
           </div>
           <motion.div
@@ -37,7 +41,7 @@ export default function About() {
               width="1400"
               height="900"
               preload="auto"
-              src="/videos/about.m4v"
+              src="/videos/close.m4v"
               autoPlay
               loop
               muted
@@ -46,8 +50,8 @@ export default function About() {
             ></video>
           </motion.div>
         </div>
-        <Features />
+        <Review />
       </div>
-    </TracingBeam>
+    </>
   );
 }
