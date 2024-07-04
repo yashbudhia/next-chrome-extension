@@ -33,14 +33,13 @@ import {
 import { toast } from "@/components/ui/use-toast";
 
 import { Input } from "@/components/ui/input";
-import { signIn, useSession } from "next-auth/react";
-import { User } from "@prisma/client";
-import { prisma } from "@/prisma";
 import { Textarea } from "@/components/ui/textarea";
+import axios from "axios";
+import { useSession } from "next-auth/react";
 
 const languages = [
-  { label: "College Student", value: "C-student" },
-  { label: "School Student", value: "S-student" },
+  { label: "College Student", value: "College-student" },
+  { label: "School Student", value: "School-student" },
   { label: "Programmer", value: "programmer" },
   { label: "Business Owner", value: "business" },
   { label: "Doctor", value: "doctor" },
@@ -53,24 +52,25 @@ const formSchema = z.object({
   name: z.string().min(2, {
     message: "Name must be at least 2 characters.",
   }),
-  like: z.string().max(100, {
-    message: "Maximum 100 characters allowed.",
-  }),
-  improve: z.string().max(100, {
-    message: "Maximum 100 characters allowed.",
-  }),
+
   age: z.string().min(1, {
-    message: "Age must not be empty.,",
+    message: "Age must not be empty.",
   }),
   occupation: z.string({
     required_error: "Please select an occupation",
   }),
-  email: z.string().email("Please entire an appropriate email"),
+  review: z.string().max(300, {
+    message: "Maximum 300 characters allowed.",
+  }),
+  feedback: z.string().max(300, {
+    message: "Maximum 300 characters allowed.",
+  }),
 });
 
 export default function Signin() {
   const [currentstep, setCurrentstep] = useState(0);
   const { data: session } = useSession();
+  const Express_URL = process.env.NEXT_PUBLIC_EXPRESS_URL;
 
   // 1. Define your form.
   const form = useForm<z.infer<typeof formSchema>>({
@@ -79,40 +79,34 @@ export default function Signin() {
       name: "",
       age: "",
       occupation: "",
-      email: "",
-      like: "",
-      improve: "",
+      review: "",
+      feedback: "",
     },
   });
-  /* Defining register and handleSubmit
 
-  const { register, handleSubmit } = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-  late night commit
-  */
   // 2. Define a submit handler.
   async function onSubmit(values: z.infer<typeof formSchema>) {
     try {
-      await signIn("email", { email: values.email });
+      const payload = {
+        ...values,
+        userId: session?.user?.id, // Include userId in the payload
+      };
+      const response = await axios.post(`${Express_URL}/feedback`, payload);
+      console.log("Form submitted:", response.data);
 
-      console.log(values);
+      // Optionally, reset form after successful submission
+      form.reset();
 
       toast({
-        title: "You submitted the following values:",
+        title: "Your feedback has reached us!",
         description: (
           <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-            <code className="text-white">
-              {JSON.stringify(values, null, 2)}
-            </code>
+            <code className="text-white"> Thanks for submitting.</code>
           </pre>
         ),
       });
-
-      // Update the step after successful form submission
-      setCurrentstep(2);
     } catch (error) {
-      console.log(error);
+      console.log("Error submitting form:", error); // Log errors
     }
   }
 
@@ -244,7 +238,7 @@ export default function Signin() {
             >
               <FormField
                 control={form.control}
-                name="like" // Use separate names for each Textarea
+                name="review"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
@@ -264,7 +258,7 @@ export default function Signin() {
 
               <FormField
                 control={form.control}
-                name="improve" // Separate name for second Textarea
+                name="feedback"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>How to improve it?</FormLabel>
@@ -286,18 +280,6 @@ export default function Signin() {
                 </Button>
                 <Button type="submit">Submit</Button>
               </div>
-            </form>
-          </Form>
-        )}
-        {currentstep === 2 && (
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(onSubmit)}
-              className="space-y-4 w-[400px] border p-9 rounded-lg shadow-md"
-            >
-              <p>
-                A link has been sent to your email. Click the link to verify{" "}
-              </p>
             </form>
           </Form>
         )}

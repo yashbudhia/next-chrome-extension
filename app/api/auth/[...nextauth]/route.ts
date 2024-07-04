@@ -3,7 +3,6 @@ import NextAuth from "next-auth/next";
 import GithubProvider from "next-auth/providers/github";
 import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
-import EmailProvider from "next-auth/providers/email";
 import { signIn } from "next-auth/react";
 import type { Adapter } from "next-auth/adapters";
 import { NextAuthOptions } from "next-auth";
@@ -25,6 +24,20 @@ const authOptions: NextAuthOptions = {
     //error: "/auth/error", // Error code passed in query string as ?error=
     //verifyRequest: "/auth/verify-request", // (used for check email message)
     newUser: "/dashboard", // New users will be directed here on first sign in (leave the property out if not of interest)
+  },
+  callbacks: {
+    async session({ session, token }) {
+      // Fetch the user from the database
+      const user = await prisma.user.findUnique({
+        where: { email: session.user?.email ?? undefined },
+      });
+
+      if (user) {
+        session.user.id = user.id; // Attach the user ID to the session
+      }
+
+      return session;
+    },
   },
 };
 

@@ -19,6 +19,32 @@ let time = 10;
 
 const server = http.createServer(app);
 
+//Feedback form route
+app.post("/feedback", async (req, res) => {
+  try {
+    const { userId, name, age, occupation, review, feedback } = req.body;
+
+    // Save data to Prisma
+    await prisma.feedback.create({
+      data: {
+        userId,
+        name,
+        age: parseInt(age, 10), // Convert age to number
+        occupation,
+        review,
+        feedback,
+      },
+    });
+
+    res.status(201).json({ message: "Feedback submitted successfully" });
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "An error occurred while submitting feedback" });
+  }
+});
+
 app.post("/extension-data", (req, res) => {
   const { newAutoClose, newTime } = req.body;
   autoClose = newAutoClose;

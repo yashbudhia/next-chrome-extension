@@ -47,6 +47,7 @@ model User {
   age                Int?
   accounts           Account[]
   sessions           Session[]
+  feedbacks          Feedback[]
 
   // Relation with Workspaces where the user is the owner
   workspaces         Workspace[] @relation("OwnerToWorkspace")
@@ -70,7 +71,6 @@ model Workspace {
   @@map("workspaces")
 }
 
-
 model Tab {
   id                 Int       @id @default(autoincrement()) @map("id")
   title              String
@@ -82,4 +82,19 @@ model Tab {
   workspace           Workspace? @relation("WorkspaceToTab", fields: [workspaceId], references: [id])
 
   @@map("tabs")
+}
+
+model Feedback {
+  id                 Int       @id @default(autoincrement()) @map("id")
+  userId             Int
+  name               String
+  age                Int
+  occupation         String
+  review             String
+  feedback           String
+  createdAt          DateTime  @default(now())
+
+  user               User      @relation(fields: [userId], references: [id])
+
+  @@map("feedback")
 }
