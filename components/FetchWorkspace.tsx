@@ -64,7 +64,7 @@ const WorkspaceTabs = () => {
 
   return (
     <div className="p-4">
-      <h2>Workspace Tabs</h2>
+      <h2 className="text-heading">Available Workspaces : </h2>
       <div className="grid grid-cols-4 gap-4">
         {workspaces.map((workspace) => (
           <div

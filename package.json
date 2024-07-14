@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@auth/prisma-adapter": "^1.0.17",
+    "@fontsource/cascadia-mono": "^4.2.1",
     "@hookform/resolvers": "^3.3.4",
     "@prisma/client": "^5.16.1",
     "@radix-ui/react-checkbox": "^1.0.4",

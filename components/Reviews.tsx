@@ -1,6 +1,7 @@
 import { textVariant } from "@/utils/motion";
 import { motion } from "framer-motion";
 import { InfiniteMovingCards } from "./ui/infinite-moving";
+import Footer from "./Footer";
 
 export default function Review() {
   const testimonials = [

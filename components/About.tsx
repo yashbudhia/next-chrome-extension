@@ -7,7 +7,10 @@ import Features from "./Features";
 export default function About() {
   return (
     <TracingBeam className="flex justify-center z-[300px] h-[2100px]">
-      <div className="mt-12 pt-24 w-[1200px] z-50 flex flex-col items-center">
+      <div
+        id="features"
+        className="mt-12 pt-24 w-[1200px] z-50 flex flex-col items-center"
+      >
         <div className="flex flex-col  justify-center items-center">
           <motion.div
             variants={textVariant(1.0)}

@@ -26,7 +26,7 @@ export default function LandingPage() {
       <div>
         <div className="flex p-4 pl-16 mb-4 h-[750px]">
           <div className="h-[400px] md:h-[800px] flex flex-col justify-center  p-6 mb-5">
-            <div className="font-semibold text-3xl md:text-6xl flex flex-col justify-center z-[220px]">
+            <div className=" font-semibold text-3xl md:text-6xl flex flex-col justify-center z-[220px]">
               <motion.div
                 variants={textVariant(0.7)}
                 initial="hidden"
@@ -55,12 +55,10 @@ export default function LandingPage() {
               variants={textVariant(1.1)}
               initial="hidden"
               whileInView="show"
-              className="text-start gap-2 pt-5 text-slate-400"
+              className="text-start gap-2 pt-5 text-slate-400 font-mono text-base"
             >
-              "Do you ever felt like your brain freezes when you have too many
-              tabs open?
-              <br />
-              If yes! then you are at the right place."
+              "Do you ever felt like your brain freezes when you have <br /> too
+              many tabs open? If yes! then you are at the right place."
             </motion.div>
             <motion.div
               variants={textVariant(1.1)}

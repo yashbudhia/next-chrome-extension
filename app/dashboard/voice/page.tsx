@@ -33,6 +33,9 @@ export default function Priority() {
             {" "}
             "Refocus Open Workspace - (workspacename)"
           </span>{" "}
+          <div className="pt-4 text-gray-700">
+            Facing some issues - might not work correctly
+          </div>
         </div>
       </div>
     </Layout>

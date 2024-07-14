@@ -94,6 +94,9 @@ export default function Settings() {
               Save Settings
             </div>
           </button>
+          <div className=" text-gray-700">
+            Unchangeable for now (Facing some issues)
+          </div>
         </div>
       </div>
     </Layout>

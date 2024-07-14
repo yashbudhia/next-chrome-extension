@@ -67,17 +67,22 @@ function TabSelectionForm() {
   return (
     <div className="flex flex-col gap-2 p-4">
       <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-          <label htmlFor="workspaceName">Workspace Name:</label>
+        <div className="flex gap-4 pt-4 items-center">
+          <div className="text-heading">Enter Workspace Name:</div>
           <input
             type="text"
             id="workspaceName"
-            className="accent-green p-3 border rounded w-[300px] h-[30px] ml-4 "
+            className="w-80 rounded-lg h-10 bg-black p-2 text-base border-2 border-green-600 focus:border-purple-500"
             value={workspaceName}
             onChange={(e) => setWorkspaceName(e.target.value)}
           />
         </div>
-        <ul>
+        <br />
+        <div className="text-heading">
+          Open the Tabs you want to add to the Workspace :
+        </div>
+
+        <ul className="pt-3">
           {tabData.map((tab: any) => (
             <li key={tab.title}>
               <div className="gap-3 pb-2 flex items-center">

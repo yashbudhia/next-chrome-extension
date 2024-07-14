@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import SessionMiddleware from "./session";
-import Navbar from "@/components/Navbar";
 import { ThemeProvider } from "@/components/theme-provider";
 
 const OpenSans = Open_Sans({
@@ -22,6 +21,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <head>
+        <title>Refocus</title>
+        <link rel="icon" href="/refocus.ico" sizes="any" />
+      </head>
       <body className={`${OpenSans.className} overflow-x-hidden`}>
         <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
           <SessionMiddleware>{children}</SessionMiddleware>
