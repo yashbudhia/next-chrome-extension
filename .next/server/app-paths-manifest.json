@@ -1,8 +1,6 @@
 {
-  "/about/page": "app/about/page.js",
   "/page": "app/page.js",
-  "/contact/page": "app/contact/page.js",
-  "/privacy/page": "app/privacy/page.js",
-  "/terms&service/page": "app/terms&service/page.js",
-  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js"
+  "/api/auth/[...nextauth]/route": "app/api/auth/[...nextauth]/route.js",
+  "/dashboard/home/page": "app/dashboard/home/page.js",
+  "/dashboard/page": "app/dashboard/page.js"
 }

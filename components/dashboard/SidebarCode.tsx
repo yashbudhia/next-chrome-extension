@@ -38,7 +38,7 @@ export default function Sidebar() {
   };
 
   return (
-    <div className="fixed top-0 left-0 h-screen w-64 bg-grey overflow-y-auto">
+    <div className="fixed top-0 left-0 h-screen w-64 bg-grey/90 backdrop-blur-md overflow-y-auto">
       <div className="h-18 p-6">
         <div className="flex pl-8">
           <div className="flex items-center gap-2 justify-center border rounded-full hover:rounded-xl p-2 pl-3 pr-3 cursor-pointer">

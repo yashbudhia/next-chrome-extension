@@ -66,11 +66,22 @@ app.get("/extension-data", (req, res) => {
 });
 
 app.get("/workspace-tabs", async (req, res) => {
+  const { userEmail } = req.query;
+
+  if (!userEmail) {
+    return res.status(400).json({ error: "User email is required" });
+  }
+
   try {
-    const tabs = await prisma.workspace.findMany({
+    const workspaces = await prisma.workspace.findMany({
+      where: {
+        user: {
+          email: userEmail,
+        },
+      },
       include: { tabs: true },
     });
-    res.status(200).json(tabs);
+    res.status(200).json(workspaces);
   } catch (error) {
     console.error("Error fetching tabs from workspace:", error);
     res.status(500).json({

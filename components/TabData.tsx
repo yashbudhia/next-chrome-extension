@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
 
-const express_url = "https://api.refocus.co.in"; // Update with your actual API URL
+const express_url = "http://localhost:8080"; // Update with your actual API URL
 
 function TabSelectionForm() {
   const [tabData, setTabData] = useState([]);
@@ -16,7 +16,14 @@ function TabSelectionForm() {
     const fetchTabData = async () => {
       try {
         const response = await axios.get(`${express_url}/tab-data`);
-        setTabData(Object.values(response.data));
+        const { userEmail, tabs } = response.data;
+
+        // Check if the fetched userEmail matches the session user email
+        if (session?.user?.email === userEmail) {
+          setTabData(Object.values(tabs));
+        } else {
+          console.error("User email mismatch. Tabs not displayed.");
+        }
       } catch (error) {
         console.error("Error fetching tab data:", error);
       }
@@ -30,7 +37,7 @@ function TabSelectionForm() {
 
     // Cleanup interval on component unmount
     return () => clearInterval(intervalId);
-  }, []);
+  }, [session]);
 
   const handleCheckboxChange = (tabTitle: any) => {
     setSelectedTabs((prevSelected) =>
